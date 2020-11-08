@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hacker_news/apis/topStoriesApi.dart';
 import 'package:hacker_news/blocs/topStoriesBloc.dart';
+import 'package:hacker_news/widgets/stories_tile.dart';
 
 class TopStoriesScreen extends StatelessWidget {
   @override
@@ -32,11 +33,16 @@ class TopStoriesScreen extends StatelessWidget {
     );
   }
 
-  Widget buildListView(List<int> storiesId) {
+  Widget buildListView(TopStoriesBloc bloc, List<int> storiesId) {
     return ListView.builder(
       itemCount: storiesId.length,
       itemBuilder: (context, index) {
-        return Text(storiesId[index].toString());
+        final id = storiesId[index];
+        bloc.fetchItem(id);
+        return StoriesTile(
+          bloc: bloc,
+          itemId: id,
+        );
       },
     );
   }

@@ -4,14 +4,19 @@ import 'package:rxdart/rxdart.dart';
 
 class TopStoriesBloc {
   final _topStoriesId = PublishSubject<List<int>>();
-  final _items = BehaviorSubject<int>();
+  final _itemsOutput = BehaviorSubject<Map<int, Future<ItemModel>>>();
+  final _itemsFetcher = PublishSubject<int>();
+
   final TopStoryApiBase topStoryApi;
 
   Stream<List<int>> get topStoriesStream => _topStoriesId.stream;
+  ValueStream<Map<int, Future<ItemModel>>> get items => _itemsOutput.stream;
 
-  Function(int) get fetchItem => _items.sink.add;
+  Function(int) get fetchItem => _itemsFetcher.sink.add;
 
-  TopStoriesBloc({this.topStoryApi});
+  TopStoriesBloc({this.topStoryApi}) {
+    _itemsFetcher.stream.transform(_itemsTransformer()).pipe(_itemsOutput);
+  }
 
   void fetchTopStories() async {
     var ids = await topStoryApi.fetchIds();
@@ -23,7 +28,7 @@ class TopStoriesBloc {
   }
 
   ScanStreamTransformer<int, Map<int, Future<ItemModel>>> _itemsTransformer() {
-    var asd = ScanStreamTransformer(
+    return ScanStreamTransformer(
       (Map<int, Future<ItemModel>> cache, int id, _) {
         cache[id] = getStory(id);
       },
@@ -33,6 +38,7 @@ class TopStoriesBloc {
 
   void dispose() {
     _topStoriesId.close();
-    _items.close();
+    _itemsOutput.close();
+    _itemsFetcher.close();
   }
 }
