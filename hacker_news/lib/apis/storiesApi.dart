@@ -4,7 +4,7 @@ import 'package:hacker_news/entities/itemModel.dart';
 import '../apis/apisEndpoints.dart';
 import 'package:http/http.dart' as http;
 
-class TopStoryApi implements TopStoryApiBase {
+class StoryApi implements TopStoryApiBase {
   Future<List<int>> fetchIds() async {
     var response = await http.get(TopStoriesEndpoint);
 

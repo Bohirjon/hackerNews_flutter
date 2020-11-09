@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:hacker_news/apis/topStoriesApi.dart';
-import 'package:hacker_news/blocs/topStoriesBloc.dart';
-import 'package:hacker_news/screens/topStoriesScreen.dart';
+import 'package:hacker_news/apis/storiesApi.dart';
+import 'package:hacker_news/blocs/storiesBloc.dart';
+import 'package:hacker_news/screens/storiesScreen.dart';
 import 'package:provider/provider.dart';
 
 void main() {
   runApp(
     Provider(
-      create: (_) => TopStoriesBloc(topStoryApi: TopStoryApi()),
+      create: (_) => StoriesBloc(topStoryApi: StoryApi()),
       child: HackerNewsApp(),
     ),
   );

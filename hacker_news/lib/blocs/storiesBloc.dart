@@ -3,7 +3,7 @@ import 'package:hacker_news/abstractions/topStoryApiBase.dart';
 import 'package:hacker_news/entities/itemModel.dart';
 import 'package:rxdart/rxdart.dart';
 
-class TopStoriesBloc {
+class StoriesBloc {
   final _topStoriesId = PublishSubject<List<int>>();
   final _itemsOutput = BehaviorSubject<Map<int, Future<ItemModel>>>();
   final _itemsFetcher = PublishSubject<int>();
@@ -15,7 +15,7 @@ class TopStoriesBloc {
 
   Function(int) get fetchItem => _itemsFetcher.sink.add;
 
-  TopStoriesBloc({@required this.topStoryApi}) {
+  StoriesBloc({@required this.topStoryApi}) {
     _itemsFetcher.stream.transform(_itemsTransformer()).pipe(_itemsOutput);
   }
 

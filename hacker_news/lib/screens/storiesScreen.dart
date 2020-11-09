@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:hacker_news/blocs/topStoriesBloc.dart';
+import 'package:hacker_news/blocs/storiesBloc.dart';
 import 'package:hacker_news/widgets/stories_tile.dart';
 import 'package:provider/provider.dart';
 
 class StoriesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final bloc = Provider.of<TopStoriesBloc>(context);
+    final bloc = Provider.of<StoriesBloc>(context);
     bloc.fetchTopStories();
     return Scaffold(
       body: buildBody(context, bloc),
@@ -17,7 +17,7 @@ class StoriesScreen extends StatelessWidget {
     );
   }
 
-  Widget buildBody(BuildContext context, TopStoriesBloc bloc) {
+  Widget buildBody(BuildContext context, StoriesBloc bloc) {
     return StreamBuilder<List<int>>(
       stream: bloc.topStoriesStream,
       builder: (context, snapshot) {
@@ -30,7 +30,7 @@ class StoriesScreen extends StatelessWidget {
     );
   }
 
-  Widget buildListView(TopStoriesBloc bloc, List<int> storiesId) {
+  Widget buildListView(StoriesBloc bloc, List<int> storiesId) {
     return ListView.builder(
       itemCount: storiesId.length,
       itemBuilder: (context, index) {

@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hacker_news/blocs/topStoriesBloc.dart';
+import 'package:hacker_news/blocs/storiesBloc.dart';
 import 'package:hacker_news/entities/itemModel.dart';
 import 'package:provider/provider.dart';
 
@@ -11,7 +11,7 @@ class StoriesTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TopStoriesBloc bloc = Provider.of<TopStoriesBloc>(context);
+    final StoriesBloc bloc = Provider.of<StoriesBloc>(context);
     return StreamBuilder<Map<int, Future<ItemModel>>>(
       stream: bloc.items,
       builder: (context, snapshot) {
