@@ -12,6 +12,7 @@ class TopStoriesScreen extends StatelessWidget {
     return Scaffold(
       body: buildBody(context, bloc),
       appBar: AppBar(
+        centerTitle: true,
         title: Text("Hacker news"),
       ),
     );
@@ -24,7 +25,7 @@ class TopStoriesScreen extends StatelessWidget {
         if (snapshot.hasData) {
           return buildListView(bloc, snapshot.data);
         } else {
-          return CircularProgressIndicator();
+          return Center(child: CircularProgressIndicator());
         }
       },
     );

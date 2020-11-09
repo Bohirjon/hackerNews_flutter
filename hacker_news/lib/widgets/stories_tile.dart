@@ -19,22 +19,52 @@ class StoriesTile extends StatelessWidget {
             future: snapshot.data[itemId],
             builder: (context, itemSnapshot) {
               if (itemSnapshot.hasData) {
-                return ListTile(
-                  title: Text(itemSnapshot.data.title),
-                  subtitle: Text(itemSnapshot.data.score.toString() + " votes"),
-                  trailing: Column(
-                    children: [
-                      Icon(Icons.comment),
-                      Text(itemSnapshot.data.kids.length.toString())
-                    ],
-                  ),
+                return Column(
+                  children: [
+                    ListTile(
+                      title: Text(itemSnapshot.data.title),
+                      subtitle:
+                          Text(itemSnapshot.data.score.toString() + " votes"),
+                      trailing: Column(
+                        children: [
+                          Icon(Icons.comment),
+                          Text(itemSnapshot.data.kids.length.toString())
+                        ],
+                      ),
+                    ),
+                    Divider(),
+                  ],
                 );
               }
-              return Text("Loading Item: $itemId");
+              return Column(
+                children: [
+                  ListTile(
+                    title: Container(
+                      color: Colors.grey.shade600,
+                    ),
+                    subtitle: Container(
+                      color: Colors.grey.shade300,
+                    ),
+                  ),
+                  Divider(),
+                ],
+              );
             },
           );
         }
-        return Text("Loading...");
+        return Column(
+          children: [
+            ListTile(
+              title: Container(
+                color: Colors.grey.shade600,
+              ),
+              subtitle: Container(
+                color: Colors.grey.shade300,
+              ),
+            ),
+            Divider(),
+          ],
+        );
       },
     );
   }
