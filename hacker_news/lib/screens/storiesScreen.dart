@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hacker_news/blocs/storiesBloc.dart';
+import 'package:hacker_news/datas/story_type.dart';
 import 'package:hacker_news/widgets/stories_tile.dart';
 import 'package:provider/provider.dart';
 
@@ -7,12 +8,39 @@ class StoriesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = Provider.of<StoriesBloc>(context);
-    bloc.fetchTopStories();
+    //TODO:
+    bloc.fetchStories(bloc.currentStoryType);
     return Scaffold(
       body: buildBody(context, bloc),
       appBar: AppBar(
         centerTitle: true,
         title: Text("Hacker news"),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: [
+          BottomNavigationBarItem(
+              icon: Icon(Icons.new_releases), label: "News"),
+          BottomNavigationBarItem(
+            label: "Tops",
+            icon: Icon(Icons.border_top),
+          ),
+          BottomNavigationBarItem(
+            label: "Best",
+            icon: Icon(Icons.vertical_align_top),
+          )
+        ],
+        onTap: (value) {
+          switch (value) {
+            case 0:
+              bloc.fetchStories(StoryType.NewStory);
+              break;
+            case 1:
+              bloc.fetchStories(StoryType.TopStory);
+              break;
+            case 2:
+              bloc.fetchStories(StoryType.BestStory);
+          }
+        },
       ),
     );
   }

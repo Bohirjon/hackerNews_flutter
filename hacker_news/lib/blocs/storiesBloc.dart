@@ -9,26 +9,24 @@ class StoriesBloc {
   final _topStoriesId = PublishSubject<List<int>>();
   final _itemsOutput = BehaviorSubject<Map<int, Future<ItemModel>>>();
   final _itemsFetcher = PublishSubject<int>();
-  final _storyTypeSubject = BehaviorSubject<StoryType>();
 
   final StoryApiBase storyApi;
+
+  StoryType currentStoryType = StoryType.NewStory;
 
   Stream<List<int>> get topStoriesStream => _topStoriesId.stream;
 
   ValueStream<Map<int, Future<ItemModel>>> get items => _itemsOutput.stream;
 
-  ValueStream<StoryType> get storyType => _storyTypeSubject.stream;
-
   Function(int) get fetchItem => _itemsFetcher.sink.add;
-
-  Function(StoryType) get changeStoryType => _storyTypeSubject.sink.add;
 
   StoriesBloc({@required this.storyApi}) {
     _itemsFetcher.stream.transform(_itemsTransformer()).pipe(_itemsOutput);
   }
 
-  void fetchTopStories() async {
-    var ids = await storyApi.fetchIds(_storyTypeSubject.value);
+  void fetchStories(StoryType storyType) async {
+    var ids = await storyApi.fetchIds(storyType);
+    currentStoryType = storyType;
     _topStoriesId.sink.add(ids);
   }
 
@@ -51,6 +49,5 @@ class StoriesBloc {
     _topStoriesId.close();
     _itemsOutput.close();
     _itemsFetcher.close();
-    _storyTypeSubject.close();
   }
 }

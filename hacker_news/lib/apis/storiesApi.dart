@@ -4,10 +4,12 @@ import 'package:hacker_news/datas/story_type.dart';
 import 'package:hacker_news/entities/itemModel.dart';
 import '../apis/apisEndpoints.dart';
 import 'package:http/http.dart' as http;
+import '../extensions/story_typeExtensions.dart';
 
 class StoryApi implements StoryApiBase {
   Future<List<int>> fetchIds(StoryType storyType) async {
-    var response = await http.get(TopStoriesEndpoint);
+    var url = StoriesEndpoint.replaceFirst("replacement", storyType.uri);
+    var response = await http.get(url);
 
     if (response.statusCode == 200) {
       var ids = json.decode(response.body) as List<dynamic>;
