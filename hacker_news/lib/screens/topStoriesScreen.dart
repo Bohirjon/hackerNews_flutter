@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 class TopStoriesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var bloc = Provider.of<TopStoriesBloc>(context);
+    final bloc = Provider.of<TopStoriesBloc>(context);
     bloc.fetchTopStories();
     return Scaffold(
       body: buildBody(context, bloc),
@@ -39,10 +39,7 @@ class TopStoriesScreen extends StatelessWidget {
       itemBuilder: (context, index) {
         final id = storiesId[index];
         bloc.fetchItem(id);
-        return StoriesTile(
-          bloc: bloc,
-          itemId: id,
-        );
+        return StoriesTile(itemId: id);
       },
     );
   }
