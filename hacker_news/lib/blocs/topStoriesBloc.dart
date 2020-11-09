@@ -29,8 +29,10 @@ class TopStoriesBloc {
 
   ScanStreamTransformer<int, Map<int, Future<ItemModel>>> _itemsTransformer() {
     return ScanStreamTransformer(
-      (Map<int, Future<ItemModel>> cache, int id, _) {
+      (Map<int, Future<ItemModel>> cache, int id, int index) {
+        print(index);
         cache[id] = getStory(id);
+        return cache;
       },
       <int, Future<ItemModel>>{},
     );

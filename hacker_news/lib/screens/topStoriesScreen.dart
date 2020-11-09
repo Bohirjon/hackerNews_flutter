@@ -9,10 +9,10 @@ class TopStoriesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var bloc = TopStoriesBloc(topStoryApi: TopStoryApi());
     bloc.fetchTopStories();
-    return CupertinoPageScaffold(
-      child: buildBody(context, bloc),
-      navigationBar: CupertinoNavigationBar(
-        middle: Text("Hacker news"),
+    return Scaffold(
+      body: buildBody(context, bloc),
+      appBar: AppBar(
+        title: Text("Hacker news"),
       ),
     );
   }
@@ -22,12 +22,9 @@ class TopStoriesScreen extends StatelessWidget {
       stream: bloc.topStoriesStream,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return buildListView(snapshot.data);
+          return buildListView(bloc, snapshot.data);
         } else {
-          return CupertinoActivityIndicator(
-            animating: true,
-            radius: 14,
-          );
+          return CircularProgressIndicator();
         }
       },
     );

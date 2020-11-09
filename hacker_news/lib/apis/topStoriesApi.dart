@@ -19,9 +19,13 @@ class TopStoryApi implements TopStoryApiBase {
     var url = GetStoryEndpoint.replaceFirst("replacement", id.toString());
     var response = await http.get(url);
     if (response.statusCode == 200) {
-      var jsonValue = json.decode(response.body);
-      var itemModel = ItemModel.fromJson(jsonValue);
-      return itemModel;
+      try {
+        var jsonValue = json.decode(response.body);
+        var itemModel = ItemModel.fromJson(jsonValue);
+        return itemModel;
+      } catch (Exception) {
+        return null;
+      }
     }
     return null;
   }
