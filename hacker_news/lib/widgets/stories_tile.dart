@@ -36,36 +36,30 @@ class StoriesTile extends StatelessWidget {
                   ],
                 );
               }
-              return Column(
-                children: [
-                  ListTile(
-                    title: Container(
-                      color: Colors.grey.shade600,
-                    ),
-                    subtitle: Container(
-                      color: Colors.grey.shade300,
-                    ),
-                  ),
-                  Divider(),
-                ],
-              );
+              return buildLoadingTile();
             },
           );
         }
-        return Column(
-          children: [
-            ListTile(
-              title: Container(
-                color: Colors.grey.shade600,
-              ),
-              subtitle: Container(
-                color: Colors.grey.shade300,
-              ),
-            ),
-            Divider(),
-          ],
-        );
+        return buildLoadingTile();
       },
+    );
+  }
+
+  Widget buildLoadingTile() {
+    return Column(
+      children: [
+        ListTile(
+          title: Container(
+            height: 24.0,
+            color: Colors.grey.shade200,
+          ),
+          subtitle: Container(
+            color: Colors.grey.shade200,
+            height: 24.0,
+          ),
+        ),
+        Divider(),
+      ],
     );
   }
 }
