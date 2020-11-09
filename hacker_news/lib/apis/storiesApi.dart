@@ -1,11 +1,12 @@
 import 'dart:convert';
-import 'package:hacker_news/abstractions/topStoryApiBase.dart';
+import 'package:hacker_news/abstractions/storyApiBase.dart';
+import 'package:hacker_news/datas/story_type.dart';
 import 'package:hacker_news/entities/itemModel.dart';
 import '../apis/apisEndpoints.dart';
 import 'package:http/http.dart' as http;
 
-class StoryApi implements TopStoryApiBase {
-  Future<List<int>> fetchIds() async {
+class StoryApi implements StoryApiBase {
+  Future<List<int>> fetchIds(StoryType storyType) async {
     var response = await http.get(TopStoriesEndpoint);
 
     if (response.statusCode == 200) {

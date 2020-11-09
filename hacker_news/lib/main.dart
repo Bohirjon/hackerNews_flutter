@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 void main() {
   runApp(
     Provider(
-      create: (_) => StoriesBloc(topStoryApi: StoryApi()),
+      create: (_) => StoriesBloc(storyApi: StoryApi()),
       child: HackerNewsApp(),
     ),
   );

@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
-import 'package:hacker_news/abstractions/topStoryApiBase.dart';
+import 'package:flutter/material.dart';
+import 'package:hacker_news/abstractions/storyApiBase.dart';
+import 'package:hacker_news/datas/story_type.dart';
 import 'package:hacker_news/entities/itemModel.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -7,25 +9,31 @@ class StoriesBloc {
   final _topStoriesId = PublishSubject<List<int>>();
   final _itemsOutput = BehaviorSubject<Map<int, Future<ItemModel>>>();
   final _itemsFetcher = PublishSubject<int>();
+  final _storyTypeSubject = BehaviorSubject<StoryType>();
 
-  final TopStoryApiBase topStoryApi;
+  final StoryApiBase storyApi;
 
   Stream<List<int>> get topStoriesStream => _topStoriesId.stream;
+
   ValueStream<Map<int, Future<ItemModel>>> get items => _itemsOutput.stream;
+
+  ValueStream<StoryType> get storyType => _storyTypeSubject.stream;
 
   Function(int) get fetchItem => _itemsFetcher.sink.add;
 
-  StoriesBloc({@required this.topStoryApi}) {
+  Function(StoryType) get changeStoryType => _storyTypeSubject.sink.add;
+
+  StoriesBloc({@required this.storyApi}) {
     _itemsFetcher.stream.transform(_itemsTransformer()).pipe(_itemsOutput);
   }
 
   void fetchTopStories() async {
-    var ids = await topStoryApi.fetchIds();
+    var ids = await storyApi.fetchIds(_storyTypeSubject.value);
     _topStoriesId.sink.add(ids);
   }
 
   Future<ItemModel> getStory(int id) {
-    return topStoryApi.getStory(id);
+    return storyApi.getStory(id);
   }
 
   ScanStreamTransformer<int, Map<int, Future<ItemModel>>> _itemsTransformer() {
@@ -43,5 +51,6 @@ class StoriesBloc {
     _topStoriesId.close();
     _itemsOutput.close();
     _itemsFetcher.close();
+    _storyTypeSubject.close();
   }
 }
