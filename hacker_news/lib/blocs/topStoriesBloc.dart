@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:hacker_news/abstractions/topStoryApiBase.dart';
 import 'package:hacker_news/entities/itemModel.dart';
 import 'package:rxdart/rxdart.dart';
@@ -14,7 +15,7 @@ class TopStoriesBloc {
 
   Function(int) get fetchItem => _itemsFetcher.sink.add;
 
-  TopStoriesBloc({this.topStoryApi}) {
+  TopStoriesBloc({@required this.topStoryApi}) {
     _itemsFetcher.stream.transform(_itemsTransformer()).pipe(_itemsOutput);
   }
 
