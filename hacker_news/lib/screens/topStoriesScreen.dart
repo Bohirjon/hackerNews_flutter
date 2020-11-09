@@ -1,12 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hacker_news/apis/topStoriesApi.dart';
 import 'package:hacker_news/blocs/topStoriesBloc.dart';
-import 'package:hacker_news/blocs/topStoriesProvider.dart';
 import 'package:hacker_news/widgets/stories_tile.dart';
 import 'package:provider/provider.dart';
 
-class TopStoriesScreen extends StatelessWidget {
+class StoriesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = Provider.of<TopStoriesBloc>(context);
